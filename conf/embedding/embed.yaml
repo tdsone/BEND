@@ -101,6 +101,9 @@ grover:
   _target_ : bend.utils.embedders.GROVEREmbedder
   model_name: ${embedders_dir}/grover/
   upsample_embeddings: true
+adapter:
+  _target_ : bend.utils.embedders.AdapterEmbedder
+  model_name: ${embedders_dir}/adapter-embedder/
 # data configurations for each task
 gene_finding:
   reference_fasta : ${data_dir}/genomes/GRCh38.primary_assembly.genome.fa
