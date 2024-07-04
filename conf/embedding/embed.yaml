@@ -9,23 +9,8 @@ hydra :
     - file://conf 
   sweeper:
     params:
-      model: gena-lm-bigbird-base-t2t,
-             gena-lm-bert-large-t2,
-             hyenadna-tiny-1k,
-             hyenadna-large-1m,
-             dnabert6,
-             resnetlm,
-             nt_transformer_ms,
-             nt_transformer_human_ref,
-             nt_transformer_1000g,
-             dnabert2,
-             onehot, 
-             awdlstm,
-             nt_transformer_v2_500m,
-             grover
-             #hyenadna-small-32k,
-             #hyenadna-medium-160k,
-             #hyenadna-medium-450k,
+      model: adapter,
+             onehot
       task: 
             gene_finding,
             enhancer_annotation,
@@ -36,10 +21,10 @@ hydra :
 
 chunk_size : 50000
 chunk : null # can be given as a list of chunks to embed 
-data_dir : ./data/
+data_dir : ./BEND/data
 embedders_dir : ./pretrained_models/
 splits : null
-model : nt_transformer_1000g
+model : adapter
 task : gene_finding
 # model instatiators 
 dnabert2:
@@ -102,8 +87,9 @@ grover:
   model_name: ${embedders_dir}/grover/
   upsample_embeddings: true
 adapter:
-  _target_ : bend.utils.embedders.AdapterEmbedder
-  model_name: ${embedders_dir}/adapter-embedder/
+  _target_ : bend.utils.embedders.Adapter
+  model_path: ${embedders_dir}/adapter/
+  tokenizer_path: /Users/timon/Documents/0_projects/phd/BEND-timon/tokenizer.py
 # data configurations for each task
 gene_finding:
   reference_fasta : ${data_dir}/genomes/GRCh38.primary_assembly.genome.fa
