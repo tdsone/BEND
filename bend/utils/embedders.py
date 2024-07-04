@@ -19,6 +19,7 @@ import numpy as np
 from typing import List, Iterable
 from functools import partial
 import os
+import platform
 
 from bend.models.awd_lstm import AWDLSTMModelForInference
 from bend.models.dilated_cnn import ConvNetModel
@@ -46,8 +47,23 @@ logging.set_verbosity_error()
 # TODO graceful auto downloading solution for everything that is hosted in a nice way
 # https://github.com/huggingface/transformers/blob/main/src/transformers/utils/hub.py
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+def get_device():
+    if torch.cuda.is_available(): 
+        return torch.device("cuda")
+
+    if platform.system() == "Darwin":  # macOS
+        if platform.machine() == "arm64":  # Apple Silicon
+            if torch.backends.mps.is_available():
+                return torch.device("mps")
+
+    # Default to CUDA if available, otherwise use CPU
+    return torch.device("cpu")
+
+
+# Usage
+device = get_device()
+print(f"Using device: {device}")
 
 ##
 ## GPN https://www.biorxiv.org/content/10.1101/2022.08.22.504706v1
