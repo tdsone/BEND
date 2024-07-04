@@ -49,7 +49,7 @@ logging.set_verbosity_error()
 
 
 def get_device():
-    if torch.cuda.is_available(): 
+    if torch.cuda.is_available():
         return torch.device("cuda")
 
     if platform.system() == "Darwin":  # macOS
@@ -129,7 +129,12 @@ class Adapter(BaseEmbedder):
 
         self.tokenizer = Adapter.load_tokenizer_from_file(tokenizer_path, "Tokenizer")
 
-    def embed(self, sequences: List[str], disable_tqdm: bool = False):
+    def embed(
+        self,
+        sequences: List[str],
+        disable_tqdm: bool = False,
+        upsample_embeddings: bool = False,
+    ):
         embeddings = []
         with torch.no_grad():
             for seq in tqdm(sequences, disable=disable_tqdm):
@@ -496,6 +501,8 @@ class NucleotideTransformerEmbedder(BaseEmbedder):
         """
         cls_tokens = []
         embeddings = []
+
+        print(f"Device: {device}")
 
         with torch.no_grad():
             for n, s in enumerate(tqdm(sequences, disable=disable_tqdm)):
