@@ -20,8 +20,8 @@ hydra :
 
 chunk_size : 50000
 chunk : null # can be given as a list of chunks to embed 
-data_dir : ./BEND/data
-embedders_dir : ./pretrained_models/
+data_dir : /mnt/data/shared/dna-tokenizer/BEND/data
+embedders_dir : /mnt/data/shared/dna-tokenizer/BEND/pretrained_models/
 splits : null
 model : adapter
 task : gene_finding
