@@ -9,8 +9,7 @@ hydra :
     - file://conf 
   sweeper:
     params:
-      model: adapter,
-             onehot
+      model: adapter
       task: 
             gene_finding,
             enhancer_annotation,
